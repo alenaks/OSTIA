@@ -13,6 +13,10 @@ print("States:", T1.Q)
 print("Transitions:", T1.E)
 print("State outputs:", T1.stout)
 
+test = ["aba", "bbb", "ababa", "abbaba"]
+for w in test:
+    print(w, "--->", T1.rewrite(w))
+
 print("------------------------------------------------")
 
 
@@ -29,4 +33,6 @@ print("States:", T2.Q)
 print("Transitions:", T2.E)
 print("State outputs:", T2.stout)
 
-
+test = ["aba", "bbb", "ababa", "abbaba"]
+for w in test:
+    print(w, "--->", T2.rewrite(w))

@@ -17,6 +17,32 @@ class FST():
         self.qe = ""
         self.E = None
         self.stout = None
+
+
+    def rewrite(self, w):
+        ''' Rewrites the string w with respect to the transducer. '''
+        
+        if self.Q == None:
+            raise ValueError("The transducer needs to be constructed.")
+        
+        # move through the transducer and write the output
+        result = ""
+        current_state = ""
+        moved = False
+        for i in range(len(w)):
+            for tr in self.E:
+                if tr[0] == current_state and tr[1] == w[i]:
+                    result += tr[2]
+                    current_state, moved = tr[3], True
+                    break
+            if moved == False:
+                raise ValueError("This string cannot be read by the current transducer.")
+                
+        # add the final state output
+        if self.stout[current_state] != "*":
+            result += self.stout[current_state]
+            
+        return result
         
         
         

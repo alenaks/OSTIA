@@ -37,27 +37,24 @@ def build_ptt(S, Sigma, Gamma):
 def onward_ptt(T, q, u):
     """ Makes the PTT onward. """
     
-    # going to the leaves of the transducer and trying to push as much as possible
+    # proceed as deep as possible
     for tr in T.E:
         if tr[0] == q:
-            T, q1, w = onward_ptt(T, tr[3], tr[1])
+            T, qx, w = onward_ptt(T, tr[3], tr[1])
             if tr[2] != "*":
-                tr[2] = tr[2] + w
+                tr[2] += w
+                  
+    # find lcp of all ways of leaving state 1 or stopping in it
+    t = [tr[2] for tr in T.E if tr[0] == q]
+    f = lcp(T.stout[q], *t)
     
-    # find the part of the outputs that can be pushed towards the front
-    before_pushing = [T.stout[q]]
-    for tr in T.E:
-        if tr[0] == q:
-            before_pushing.append(tr[2])
-    f = lcp(*before_pushing)
-    
-    # pushing the lcp towards the front
-    if f != "":
+    # remove from the prefix unless it's the initial state
+    if f != "" and q != "":
         for tr in T.E:
             if tr[0] == q:
                 tr[2] = remove_from_prefix(tr[2], f)
         T.stout[q] = remove_from_prefix(T.stout[q], f)
-        
+                
     return T, q, f
 
 

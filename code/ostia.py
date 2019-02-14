@@ -113,8 +113,10 @@ def ostia_pushback(T_orig, q1, q2, a):
             tr[2] = remains_q2 + tr[2]
     
     # append common part to the next state's state output
-    T.stout[q1_goes_to] = remains_q1 + T.stout[q1_goes_to]
-    T.stout[q2_goes_to] = remains_q2 + T.stout[q2_goes_to]
+    if T.stout[q1_goes_to] != "*":
+        T.stout[q1_goes_to] = remains_q1 + T.stout[q1_goes_to]
+    if T.stout[q2_goes_to] != "*":
+        T.stout[q2_goes_to] = remains_q2 + T.stout[q2_goes_to]
     
     return T
 
